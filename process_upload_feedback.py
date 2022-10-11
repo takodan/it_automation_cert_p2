@@ -29,11 +29,13 @@ def extact_content(file_path):
 
     return content_dict
 
-    
-def post_the_dict():
+
+def post_the_dict(content_list, ip):
     """ to the company's website through requests module """
     # http://<corpweb-external-IP>/feedback
-    pass
+    response = requests.post("http://"+ip+"/feedback/", json=content_list)
+    print(response.ok)
+    print(response.status_code)
 
 def main():
     """ make sure an error message isn't returned """
@@ -57,10 +59,11 @@ def main():
 
     # check print(content_list)
 
-    response = requests.get('https://www.google.com')
-    print(response.ok)
-    print(response.status_code)
-    print(response.raise_for_status())
+    ip = input("please enter the ip: ")
+    response = requests.get("http://"+ip)
+    if response.ok:
+        for content in content_list:
+            post_the_dict(content, ip)
 
 if __name__ == "__main__":
     main()
